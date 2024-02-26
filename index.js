@@ -1,13 +1,20 @@
+require("dotenv").config();
+
 const Discord = require("discord.js");
-const client = new Discord.Client();
+const GatewayIntentBits = Discord.GatewayIntentBits;
+const Client = Discord.Client;
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+});
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on("message", (message) => {
-  // if message.content
+client.on("messageCreate", (message) => {
+  if (message.author.bot) return;
   console.log(message);
+  message.reply("hello! I'm under dev, don't expect much.");
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -18,4 +25,4 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-client.login(TOKEN);
+client.login(process.env.TOKEN);
