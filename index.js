@@ -22,16 +22,42 @@ client.on("messageCreate", (message) => {
   // return if message is by a bot
   if (message.author.bot) return;
 
-  // Pattern based messages
-  // ## !rand
   try {
-    if (message.content.startsWith("!rand")) {
-      const instruction = message.content.split("!rand")[1].trim();
+    // # !rand <item1, item2, item3>
+    // ## returns a random item
+    if (message.content.startsWith("!pick")) {
+      const instruction = message.content.split("!pick")[1];
       const nums = instruction.split(",").map((item) => {
         return item.trim();
       });
 
-      message.reply(`Yele rand, ${nums[trulyRandomNumber(0, nums.length)]}`);
+      message.reply(`I picked: ${nums[trulyRandomNumber(0, nums.length - 1)]}`);
+    }
+
+    // # !rand <number1~number2>
+    // ## returns a random number between the range
+    else if (message.content.startsWith("!rand")) {
+      const instruction = message.content.split("!rand")[1].trim();
+      const nums = instruction.split("~");
+
+      const min = parseInt(nums[0]);
+      const max = parseInt(nums[1]);
+
+      if (
+        min > max ||
+        typeof min !== "number" ||
+        typeof max !== "number" ||
+        isNaN(min) ||
+        isNaN(max)
+      )
+        return message.reply("Invalid !rand prompt!");
+
+      message.reply(
+        `Random number for you is: ${trulyRandomNumber(
+          parseInt(min),
+          parseInt(max)
+        )}`
+      );
     }
   } catch (error) {
     console.log(`Error: ${error}`);
