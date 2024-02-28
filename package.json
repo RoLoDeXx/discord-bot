@@ -6,6 +6,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
+    "crypto": "^1.0.1",
     "dotenv": "^16.4.5"
   },
   "scripts": {
@@ -13,5 +14,6 @@
   },
   "author": "RoLoDeXx",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "type": "module"
 }
