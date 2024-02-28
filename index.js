@@ -1,22 +1,10 @@
 import dotenv from "dotenv";
 import { REST, Routes, Client, GatewayIntentBits } from "discord.js";
-import commands from "./commands.js";
+import trulyRandomNumber from "./random.js";
 
 dotenv.config();
 
 const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
-
-// try {
-//   console.log("Started refreshing application (/) commands.");
-
-//   await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
-//     body: commands,
-//   });
-
-//   console.log("Successfully reloaded application (/) commands.");
-// } catch (error) {
-//   console.error(error);
-// }
 
 const client = new Client({
   intents: [
@@ -36,18 +24,19 @@ client.on("messageCreate", (message) => {
 
   // Pattern based messages
   // ## !rand
-  if (message.content.startsWith("!rand")) {
-    const instruction = message.content.split("!rand")[1].trim();
-    const nums = instruction.split(",").map((item) => {
-      return item.trim();
-    });
+  try {
+    if (message.content.startsWith("!rand")) {
+      const instruction = message.content.split("!rand")[1].trim();
+      const nums = instruction.split(",").map((item) => {
+        return item.trim();
+      });
 
-    console.log(instruction);
-    message.reply("hello! I'm Supposed to generate a random number");
+      message.reply(`Yele rand, ${nums[trulyRandomNumber(0, nums.length)]}`);
+    }
+  } catch (error) {
+    console.log(`Error: ${error}`);
+    message.reply("Something went wrong sadly");
   }
-
-  // console.log(message);
-  // message.reply("hello! I'm under dev, don't expect much.");
 });
 
 client.on("interactionCreate", async (interaction) => {
