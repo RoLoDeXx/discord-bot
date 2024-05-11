@@ -10,4 +10,4 @@ function trulyRandomNumber(min, max) {
   return scaledValue;
 }
 
-export default trulyRandomNumber;
+export { trulyRandomNumber };
