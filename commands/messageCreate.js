@@ -1,5 +1,6 @@
+commandsEmbed;
+import { commandsEmbed } from "../utils/embeds/index.js";
 import { trulyRandomNumber } from "../utils/random.js";
-
 const errorMessage =
   "Invalid prompt, type '!commands' to see detailed instructions for all commands";
 
@@ -21,36 +22,28 @@ const handleMessageCreateCommands = (message) => {
       );
     }
 
-    // # !rand <number1~number2>
-    // ## returns a random number between the range
     if (message.content.startsWith("!rand")) {
-      const instruction = message.content.split("!rand")[1].trim();
+      const instruction = message.content.split("!rand")[1]?.trim();
+      if (!instruction) {
+        return message.reply(errorMessage);
+      }
+
       const numbers = instruction.split("~");
 
       const min = parseInt(numbers[0]);
       const max = parseInt(numbers[1]);
 
-      if (
-        min > max ||
-        typeof min !== "number" ||
-        typeof max !== "number" ||
-        isNaN(min) ||
-        isNaN(max)
-      )
+      if (isNaN(min) || isNaN(max) || min > max) {
         return message.reply(errorMessage);
+      }
 
-      message.reply(
-        `Random number for you is: ${trulyRandomNumber(
-          parseInt(min),
-          parseInt(max)
-        )}`
-      );
+      message.reply(`Random number for you is: ${trulyRandomNumber(min, max)}`);
     }
 
     // # !commands
     // ## generates an embed of list of possible commands of rd sharma
     if (message.content.startsWith("!commands")) {
-      console.log("working");
+      message.reply({ embeds: [commandsEmbed] });
     }
   } catch (error) {
     console.log(`Error: ${error}`);
