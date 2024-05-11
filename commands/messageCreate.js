@@ -1,5 +1,5 @@
 commandsEmbed;
-import { commandsEmbed } from "../utils/embeds/index.js";
+import { commandsEmbed, aboutEmbed } from "../utils/embeds/index.js";
 import { trulyRandomNumber } from "../utils/random.js";
 const errorMessage =
   "Invalid prompt, type '!commands' to see detailed instructions for all commands";
@@ -40,10 +40,12 @@ const handleMessageCreateCommands = (message) => {
       message.reply(`Random number for you is: ${trulyRandomNumber(min, max)}`);
     }
 
-    // # !commands
-    // ## generates an embed of list of possible commands of rd sharma
     if (message.content.startsWith("!commands")) {
       message.reply({ embeds: [commandsEmbed] });
+    }
+
+    if (message.content.startsWith("!about")) {
+      message.reply({ embeds: [aboutEmbed] });
     }
   } catch (error) {
     console.log(`Error: ${error}`);
