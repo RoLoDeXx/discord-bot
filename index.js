@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { Client, GatewayIntentBits } from "discord.js";
+import { Client, GatewayIntentBits, PermissionsBitField } from "discord.js";
 import { handleMessageCreateCommands } from "./commands/messageCreate.js";
 
 dotenv.config();
